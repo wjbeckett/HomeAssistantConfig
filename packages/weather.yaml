@@ -58,6 +58,8 @@ group:
 #----------------------------------------------------------------
 
   weather_all:
+    name: Weather
+    entities:
     - sensor.dark_sky_summary
     - sensor.dark_sky_apparent_temperature
     - sensor.dark_sky_temperature
