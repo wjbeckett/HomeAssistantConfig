@@ -1,0 +1,76 @@
+# LIGHTING SCENES PACKAGE
+#----------------------------------------------------------------
+
+scene:
+#----------------------------------------------------------------
+  # LIVING ROOM
+  #----------------------------------------------------------------
+
+  - name: Living Room Off
+    icon: mdi:lightbulb
+    entities:
+      light.lounge:
+        state: off
+
+  - name: Living Room See
+    icon: mdi:lightbulb-on-outline
+    entities:
+      light.lounge:
+        state: on
+        brightness: 255
+
+  - name: Living Room Read
+    icon: mdi:lightbulb-on-outline
+    entities:
+      light.lounge:
+        state: on
+        brightness: 125
+
+  - name: Living Room Dim
+    icon: mdi:lightbulb-on
+    entities:
+      light.lounge:
+        state: on
+        brightness: 5
+
+  - name: Living Room Movies
+    icon: mdi:lightbulb-on
+    entities:
+      light.lounge:
+        state: on
+        brightness: 50
+
+input_select:
+#----------------------------------------------------------------
+
+  living_room_scenes:
+    name: "Living Room"
+    icon: mdi:sofa
+    options:
+      - 'Off'
+      - See
+      - Read
+      - Dim
+      - Movies
+    initial: 'Off'
+
+group:
+#----------------------------------------------------------------
+
+  quick_select_scene:
+    name: Quick Select
+    view: no
+    icon: mdi:animation
+    entities:
+    - input_select.living_room_scenes
+
+  living_room_scene:
+    name: Living Room
+    view: no
+    icon: mdi:lightbulb
+    entities:
+    - scene.living_room_off
+    - scene.living_room_see
+    - scene.living_room_read
+    - scene.living_room_dim
+    - scene.living_room_movies

@@ -1,0 +1,85 @@
+# RESIDENTS PACKAGE
+# Notifies and performs automations when key residents arrive
+#----------------------------------------------------------------
+
+homeassistant:
+  customize:
+  #----------------------------------------------------------------
+
+    sensor.tracker_william:
+      icon: mdi:cellphone-android
+      entity_picture: http://home.wjbeckett.com/web_images/william.jpg
+      friendly_name: William
+
+    sensor.tracker_emily:
+      icon: mdi:cellphone-android
+      entity_picture: http://home.wjbeckett.com/web_images/emily.jpg
+      friendly_name: Emily
+
+group:
+#----------------------------------------------------------------
+
+  residents_all:
+    name: Residents
+    view: no
+    icon: mdi:account-multiple
+    entities:
+    - sensor.tracker_william
+    - sensor.tracker_emily
+
+sensor:
+#----------------------------------------------------------------
+
+  # Every resident is "sensed" through device tracking of their phones.
+  # Here I prioritize "sensing" their device connected to my home network
+  # over what iCloud indicates
+  #----------------------------------------------------------------
+  - platform: template
+    sensors:
+      tracker_william:
+        friendly_name: 'William'
+        value_template: >-
+          {% if is_state('device_tracker.phonewilliam', 'home') %}
+            Home
+          {% else %}
+            Away
+          {% endif %}
+
+  - platform: template
+    sensors:
+      tracker_emily:
+        friendly_name: 'Emily'
+        value_template: >-
+          {% if is_state('device_tracker.phoneemily', 'home') %}
+            Home
+          {% else %}
+            Away
+          {% endif %}
+
+automation:
+#----------------------------------------------------------------
+
+  # NOTIFICATIONS
+  #----------------------------------------------------------------
+
+  # Send a notification when key residents arrive
+  - alias: NOTIFY (HOME) Resident
+    initial_state: True # start disabled to avoid false positives on HA restart  
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.tracker_william
+          - sensor.tracker_emily
+    condition:
+      - condition: state
+        entity_id: input_boolean.options_notifications_push
+        state: 'on'
+      - condition: template
+        v
+    action:
+      - service: notify.html5
+        data_template:
+          message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
+          title: ""
+          target: 'William'

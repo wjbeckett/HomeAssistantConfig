@@ -1,0 +1,174 @@
+# LIGHT PACKAGE
+#----------------------------------------------------------------
+
+light:
+  - platform: limitlessled
+    bridges:
+      - host: 172.30.1.5
+        version: 5
+        port: 8899
+        groups:
+        - number: 1
+          type: rgbw
+          name: Ted
+        - number: 2
+          type: rgbw
+          name: Lounge
+           
+sensor:
+#----------------------------------------------------------------
+  - platform: template
+    sensors:
+      lights_on:
+        friendly_name: 'Lights On'
+        value_template: >-
+          {{ states.light|selectattr("state", "equalto", "on")|list|length }}
+
+homeassistant:
+  customize:
+  #----------------------------------------------------------------
+
+    sensor.lights:
+      icon: mdi:lightbulb-on-outline
+      friendly_name: Lights On
+
+    light.lounge:
+      icon: mdi:lamp
+      entity_picture:
+      friendly_name: Lounge Room Lamp
+
+    light.ted:
+      icon: mdi:hotel
+      entity_picture:
+      friendly_name: Ted's Light
+
+group:
+#----------------------------------------------------------------
+
+  # ALL
+  #----------------------------------------------------------------
+  lights_all:
+    name: All Lights
+    view: no
+    icon: mdi:lightbulb
+    entities:
+    - group.lights_all_lounge
+    - group.lights_all_ted
+
+  # LOUNGE
+  #----------------------------------------------------------------
+  lights_all_lounge:
+    name: All Lounge Lights
+    view: no
+    icon: mdi:lightbulb
+    entities:
+    - group.lights_lounge
+
+  lights_lounge:
+    name: Lounge
+    view: no
+    icon: mdi:lightbulb
+    entities:
+    - light.lounge
+
+  # TED
+  #----------------------------------------------------------------
+  lights_all_ted:
+    name: All Ted Lights
+    view: no
+    icon: mdi:lightbulb
+    entities:
+    - group.lights_ted
+
+  lights_ted:
+    name: Ted
+    view: no
+    icon: mdi:lightbulb
+    entities:
+    - light.ted
+
+automation:
+#----------------------------------------------------------------
+
+  - alias: Turn on the lounge room lamp at 5pm
+    trigger:
+      platform: time
+      after: '17:00:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.options_lights_auto_on
+        state: 'on'
+    action:
+     service: light.turn_on
+     entity_id: group.lights_all
+
+  - alias: 'Turn off lounge lights @ 11PM'
+    trigger:
+      platform: time
+      after: '23:00:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.options_lights_auto_off
+        state: 'on'
+    action:
+      service: light.turn_off
+      entity_id: light.lounge
+
+  - alias: 'Turn off lounge lights during the day'
+    trigger:
+      platform: sun
+      event: sunrise
+      offset: '+00:00:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.options_lights_auto_off
+        state: 'on'
+    action:
+      service: homeassistant.turn_off
+      entity_id: group.lights_lounge
+
+  - alias: Turn On Living Room Scenes
+    hide_entity: True
+    trigger:
+      platform: state
+      entity_id: input_select.living_room_scenes
+    action:
+      service: homeassistant.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state("input_select.living_room_scenes", "Off") %}
+            scene.living_room_off
+          {%-elif is_state("input_select.living_room_scenes", "See") %}
+            scene.living_room_see
+          {%-elif is_state("input_select.living_room_scenes", "Read") %}
+            scene.living_room_read
+          {%-elif is_state("input_select.living_room_scenes", "Dim") %}
+            scene.living_room_dim
+          {%-elif is_state("input_select.living_room_scenes", "Movies") %}
+            scene.living_room_movies
+          {% else %}
+            none
+          {% endif %}
+
+
+  # Turn off downstairs bathroom lights after 15 minutes
+#  - alias: "Turn off downstairs bathroom lights after 20 minutes"
+
+#    trigger:
+#      - platform: state
+#        entity_id: light.downstairs_bathroom_lights_level_36_0
+#        from: 'off'
+#        to: 'on'
+#        for:
+#          hours: 0
+#          minutes: 20
+#          seconds: 0
+
+#    condition:
+#      - condition: state
+#        entity_id: input_boolean.options_lights_auto_off
+#        state: 'on'
+
+#    action:
+#      - service: homeassistant.turn_on
+#        entity_id: scene.downstairs_bathroom_off

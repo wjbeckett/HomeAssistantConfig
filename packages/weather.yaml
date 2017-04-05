@@ -1,0 +1,78 @@
+# WEATHER PACKAGE
+# Weather sensors
+#----------------------------------------------------------------
+
+homeassistant:
+  customize:
+  #----------------------------------------------------------------
+    sensor.dark_sky_summary:
+      friendly_name: 'Summary'
+    sensor.dark_sky_cloud_coverage:
+      friendly_name: 'Cloud Coverage'
+    sensor.dark_sky_apparent_temperature:
+      friendly_name: 'Feels Like'
+    sensor.dark_sky_temperature:
+      friendly_name: 'Temperature'
+    sensor.dark_sky_daily_high_temperature:
+      friendly_name: 'Temp Max'
+    sensor.dark_sky_daily_low_temperature:
+      friendly_name: 'Temp Min'
+    sensor.dark_sky_humidity:
+      friendly_name: 'Humidity'
+    sensor.dark_sky_daily_summary:
+      friendly_name: 'Daily Summary'
+    sensor.dark_sky_precip:
+      friendly_name: 'Precipitation'
+    sensor.dark_sky_precip_probability:
+      friendly_name: 'Chance of Rain'
+
+sensor:
+  - platform: darksky
+    api_key: 0209e744cc9f91d7d16ca07bef22165f 
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+      - nearest_storm_bearing
+      - precip_type
+      - precip_intensity
+      - precip_probability
+      - temperature
+      - apparent_temperature
+      - dew_point
+      - wind_speed
+      - wind_bearing
+      - cloud_cover
+      - humidity
+      - pressure
+      - visibility
+      - hourly_summary
+      - daily_summary
+      - temperature_max
+      - temperature_min
+      - apparent_temperature_max
+      - apparent_temperature_min
+      - precip_intensity_max
+
+group:
+#----------------------------------------------------------------
+
+  weather_all:
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_apparent_temperature
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_daily_hight_temperature
+    - sensor.dark_sky_daily_low_temperature
+    - sensor.dark_sky_humidity
+    - sensor.dark_sky_precip_intensity
+    - sensor.dark_sky_precip_probability
+    - sensor.dark_sky_cloud_cover
+    - sensor.dark_sky_daily_summary
+
+  weather_summary:
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_apparent_temperature
+    - sensor.dark_sky_daily_summary
+    - sensor.dark_sky_temperature_max
+    - sensor.dark_sky_temperature_min
+  

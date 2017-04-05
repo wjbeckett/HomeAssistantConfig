@@ -1,0 +1,272 @@
+# MONITOR PACKAGE
+# Monitor devices, services, etc
+#----------------------------------------------------------------
+sensor:
+
+  - platform: sonarr
+    api_key: !secret sonarr_api
+    host: !secret sonarr_host 
+    port: !secret sonarr_port 
+    monitored_conditions:
+      - upcoming
+      - wanted
+      - queue
+      - diskspace
+    days: 2
+
+  - platform: speedtest
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+    minute:
+      - 0
+      - 15
+      - 30
+      - 45
+
+homeassistant:
+  customize:
+  #----------------------------------------------------------------
+
+    binary_sensor.server:
+      icon: mdi:server
+      friendly_name: BMS01
+
+    binary_sensor.radarr:
+      icon: mdi:radar
+      friendly_name: Radarr
+
+    binary_sensor.router:
+      icon: mdi:ethernet
+      friendly_name: Router
+
+    binary_sensor.plex:
+      icon: mdi:plex
+      friendly_name: Plex
+
+    binary_sensor.sonarr:
+      icon: mdi:television-guide
+      friendly_name: Sonarr
+
+    binary_sensor.deluge:
+      icon: mdi:download
+      friendly_name: Deluge
+
+    binary_sensor.jackett:
+      icon: mdi:human-handsdown
+      friendly_name: Jackett
+
+    binary_sensor.proxy:
+      icon: mdi:linux
+      friendly_name: Reverse Proxy
+
+    binary_sensor.light_bridge:
+      icon: mdi:bridge
+      friendly_name: Light Bridge
+
+    binary_sensor.nexus_player:
+      icon: mdi:cast
+      friendly_name: Nexus Player
+
+    binary_sensor.plexpy:
+      icon: mdi:chart-line
+      friendly_name: PlexPy
+
+    binary_sensor.requests:
+      icon: mdi:ticket-account
+      friendly_name: Requests
+   
+    sensor.speedtest_download:
+      friendly_name: Download
+
+    sensor.speedtest_upload:
+      friendly_name: Upload
+
+
+
+automation:
+#----------------------------------------------------------------
+
+  # Notify when sensor batteries are low
+  #- alias: NOTIFY (BATTERY) Sensors
+  #  trigger:
+  #    - platform: numeric_state
+  #      entity_id: binary_sensor.front_door_sensor_sensor_42_0
+  #      value_template: '{{ state.attributes.battery_level }}'
+  #      below: 5
+  #    - platform: numeric_state
+  #      entity_id: binary_sensor.mudroom_door_sensor_sensor_40_0
+  #      value_template: '{{ state.attributes.battery_level }}'
+  #      below: 5
+  #    - platform: numeric_state
+  #      entity_id: binary_sensor.garage_door_tilt_sensor_sensor_27_0
+  #      value_template: '{{ state.attributes.battery_level }}'
+  #      below: 5
+  #  action:
+  #    - service: notify.html5
+  #      data_template:
+  #        message: "{{ trigger.entity_id.split('.')[1].split('_sensor')[0].lower().replace('_', ' ').title() }} batteries are at {{ trigger.to_state.state }}"
+  #        title: ""
+  #        target: 'William'
+
+  - alias: NOTIFY (STATE) Binary Sensors
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.sonarr
+          - binary_sensor.router
+          - binary_sensor.plex
+          - binary_sensor.radarr
+          - binary_sensor.jackett
+          - binary_sensor.proxy
+          - binary_sensor.deluge
+          - binary_sensor.server
+          - binary_sensor.light_bridge
+          - binary_sensor.nexus_player
+          - binary_sensor.plexpy
+          - binary_sensor.requests
+    condition:
+      - condition: state
+        entity_id: input_boolean.settings_notifications_push
+        state: 'on'
+    action:
+      - service: notify.html5
+        data_template:
+          message: "{{ trigger.entity_id.split('.')[1].title().replace('_', ' ') }} is {{ trigger.to_state.state }}"
+          title: ""
+          target: 'William'
+
+group:
+#----------------------------------------------------------------
+
+  monitor_systems:
+    name: Systems
+    view: no
+    icon: mdi:radar
+    entities:
+    - binary_sensor.proxy
+    - binary_sensor.sonarr
+    - binary_sensor.plex
+    - binary_sensor.server
+    - binary_sensor.nexus_player
+    - binary_sensor.radarr
+    - binary_sensor.deluge
+    - binary_sensor.jackett
+    - binary_sensor.plexpy
+    - binary_sensor.requests
+
+  monitor_network:
+    name: Network
+    view: no
+    icon: mdi:radar
+    entities:
+    - binary_sensor.router
+    - binary_sensor.light_bridge
+  
+  monitor_speedtest:
+    name: Speedtest
+    view: no
+    icon: mdi:gauge
+    entities:
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+
+  monitor_sonarr:
+    name: Sonarr
+    view: no
+    icon: mdi:radar
+    entities:
+    - sensor.sonarr_upcoming
+    - sensor.sonarr_queue
+    - sensor.sonarr_wanted
+    - sensor.sonarr_disk_space
+
+
+
+binary_sensor:
+#----------------------------------------------------------------
+
+  - platform: command_line
+    name: Router
+    # Example: command: ping -W 1 -c 2 192.168.1.1 > /dev/null 2>&1 && (echo "Online") || (echo "Offline")
+    command: !secret monitor_router_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: Sonarr
+    # Example: command: curl -s --head http://www.example.com/ | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null && (echo "Online") || (echo "Offline")
+    command: !secret monitor_sonarr_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: Radarr
+    # Example: command: curl -s --head http://www.example.com/ | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null && (echo "Online") || (echo "Offline")
+    command: !secret monitor_radarr_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: Jackett
+    # Example: command: curl -s --head http://www.example.com/ | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null && (echo "Online") || (echo "Offline")
+    command: !secret monitor_jackett_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: Deluge
+    # Example: command: curl -s --head http://www.example.com/ | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null && (echo "Online") || (echo "Offline")
+    command: !secret monitor_deluge_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: Plex
+    command: !secret monitor_plex_command
+    # Example: command: curl -s --head http://192.168.1.2:32400/web/index.html | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null && (echo "Online") || (echo "Offline")
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: nexus_player
+    # Example: command: ping -W 1 -c 2 192.168.1.1 > /dev/null 2>&1 && (echo "Online") || (echo "Offline")
+    command: !secret monitor_nexus_player_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: light_bridge
+    # Example: command: ping -W 1 -c 2 192.168.1.1 > /dev/null 2>&1 && (echo "Online") || (echo "Offline")
+    command: !secret monitor_light_bridge_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: proxy
+    # Example: command: ping -W 1 -c 2 192.168.1.1 > /dev/null 2>&1 && (echo "Online") || (echo "Offline")
+    command: !secret monitor_proxy_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: server
+    # Example: command: ping -W 1 -c 2 192.168.1.1 > /dev/null 2>&1 && (echo "Online") || (echo "Offline")
+    command: !secret monitor_server_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: requests
+    # Example: command: curl -s --head http://www.example.com/ | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null && (echo "Online") || (echo "Offline")
+    command: !secret monitor_requests_command
+    payload_on: "Online"
+    payload_off: "Offline"
+
+  - platform: command_line
+    name: plexpy
+    # Example: command: curl -s --head http://www.example.com/ | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null && (echo "Online") || (echo "Offline")
+    command: !secret monitor_plexpy_command
+    payload_on: "Online"
+    payload_off: "Offline"

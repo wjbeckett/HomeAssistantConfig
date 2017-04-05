@@ -1,0 +1,104 @@
+# HA VIEWS PACKAGE
+#----------------------------------------------------------------
+
+group:
+#----------------------------------------------------------------
+  default_view:
+    name: Home
+    view: yes
+    icon: mdi:home # Uncomment line to show icon instead of name
+    entities:
+    - sensor.dark_sky_summary
+    - device_tracker.william_phonewilliam
+    - device_tracker.emily_phoneemily
+    - sensor.plex
+    - sensor.lights_on
+    - group.quick_clicks
+
+  quick_clicks:
+    name: Quick Clicks
+    view: no
+    icon: mdi:remote
+    entities:
+    - light.lounge
+    - light.ted
+
+  lights_view:
+    name: Lights
+    view: yes
+    icon: mdi:lightbulb
+    entities:
+      - group.lights_lounge
+      - group.lights_ted
+
+#  # Note: Multiple camera groups to force web page to display in multiple columns
+#  cameras_view:
+#    name: Cameras
+#    view: yes
+#    icon: mdi:camcorder # Uncomment line to show icon instead of name
+#    entities:
+#      - group.cameras_group1
+#      - group.cameras_group2
+
+  people_view:
+    name: People
+    view: yes
+    icon: mdi:account-multiple
+    entities:
+      - group.residents_all
+      - script.refresh_devices
+      - group.cameras_all
+
+#  audio_view:
+#    name: Audio
+#    view: yes
+#    icon: mdi:headphones
+#    entities:
+#      - group.speakers_group1
+#      - group.speakers_group2
+
+  video_view:
+    name: Video
+    view: yes
+    icon: mdi:movie
+    entities:
+      - media_player.plex_fd7dd5375df29783_com_plexapp_android
+      - media_player.plex_21579ff9635937f3_com_plexapp_android
+      - media_player.plex_i3gtg2r62yhnnrk9
+      - media_player.plex_2a3b1bab_1c0b_4b0e_b009_2213bf9257f7
+      - media_player.plex_e7a3x16bgqp72hfi754u9dx6r
+
+  scenes_view:
+    name: Scenes
+    view: yes
+    icon: mdi:animation
+    entities:
+      - group.living_room_scene
+
+  monitor_view:
+    name: Monitor
+    view: yes
+    icon: mdi:radar
+    entities:
+      - sensor.plex
+      - group.monitor_systems
+      - group.monitor_speedtest
+      - group.monitor_network
+      - group.monitor_sonarr
+
+  weather_view:
+    name: Weather
+    view: yes
+    icon: mdi:cloud
+    entities:
+      - group.weather_all
+
+  options_view:
+    name: Options
+    view: yes
+    icon: mdi:settings
+    entities:
+      - group.options_lights
+      - group.options_notifications
+
+

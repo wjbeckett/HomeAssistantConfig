@@ -1,0 +1,84 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_lat
+  longitude: !secret home_long
+  # Impacts weather/sunrise data
+  elevation: 7
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: !secret timezone
+  # Bundles configurations together
+  # https://home-assistant.io/topics/packages/
+  packages: !include_dir_named packages/
+
+http:
+ api_password: !secret http_password
+
+sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+
+mqtt:
+  broker: !secret mqtt_broker
+  port: !secret mqtt_port
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+
+influxdb:
+  host: !secret influx_host
+  
+# Sends notifications to a wide variety of platforms
+# https://home-assistant.io/components/notify/
+notify: !include_dir_merge_list notify/
+
+# Gathers information from networking equipment  to track connected devices
+# https://home-assistant.io/components/device_tracker/
+device_tracker: !include_dir_merge_list device_tracker/
+
+# Named regions by latitude and longitude
+# https://home-assistant.io/components/zone/
+zone: !include_dir_merge_list zone/
+
+# Text-to-speech (TTS) enables Home Assistant to speak to you.
+# https://home-assistant.io/components/tts/
+tts:
+  - platform: google
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+
+group: !include groups.yaml
+
+
+
+####################################################
+#                     Enables                      #
+####################################################
+
+# Enable Config pages
+config:
+
+# Enables the frontend
+frontend:
+
+# Checks for available updates
+updater:
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
