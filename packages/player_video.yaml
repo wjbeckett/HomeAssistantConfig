@@ -38,6 +38,12 @@ homeassistant:
     media_player.plex_e7a3x16bgqp72hfi754u9dx6r:
       icon: mdi:cast
       friendly_name: Ron & Deb
+    
+    # JAZ
+    #--------------------------------------------------------------
+    media_player.plex_378e7227_b433_433e_84b9_98dadb7b990f:
+      icon: mdi:plex
+      friendly_name: Jaz
 
 sensor:
 #----------------------------------------------------------------
