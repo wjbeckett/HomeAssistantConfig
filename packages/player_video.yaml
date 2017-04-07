@@ -1,74 +1,3 @@
-<<<<<<< HEAD
-# VIDEO PLAYER PACKAGE
-#----------------------------------------------------------------
-
-homeassistant:
-  customize:
-  #----------------------------------------------------------------
-
-    # LIVING ROOM
-    #----------------------------------------------------------------
-    media_player.living_room_tv:
-      hidden: true
-
-    media_player.plex_fd7dd5375df29783_com_plexapp_android:
-      icon: mdi:plex
-      friendly_name: Living Room (Nexus Player)
-      hidden: false
-
-    #WEB
-    #---------------------------------------------------------------
-    media_player.plex_2a3b1bab_1c0b_4b0e_b009_2213bf9257f7:
-      icon: mdi:google-chrome
-      friendly_name: Work Laptop (Chrome)
-
-    # MOBILE
-    #----------------------------------------------------------------
-    media_player.plex_21579ff9635937f3_com_plexapp_android:
-      icon: mdi:plex
-      friendly_name: William (Pixel)
-
-    # TIM & BRI
-    #---------------------------------------------------------------
-    media_player.plex_i3gtg2r62yhnnrk9:
-      icon: mdi:plex
-      friendly_name: Tim & Bri
-
-    # RON & DEB
-    #--------------------------------------------------------------
-    media_player.plex_e7a3x16bgqp72hfi754u9dx6r:
-      icon: mdi:cast
-      friendly_name: Ron & Deb
-
-    # JAZ
-    #--------------------------------------------------------------
-    media_player.plex_378e7227_b433_433e_84b9_98dabd7b990f:
-      icon: mdi:plex
-      friendly_name: Jaz
-
-sensor:
-#----------------------------------------------------------------
-
-  # Modified component to:
-  # 1) Show player name if username is blank
-  # 2) Show TV show, season, and episode number
-  - platform: plexactivitymonitor
-    host: !secret plex_host
-    port: !secret plex_port
-    username: !secret plex_username
-    password: !secret plex_password
-
-media_player:
-#----------------------------------------------------------------
-
-  - platform: plex
-    entity_namespace: 'plex'
-    include_non_clients: true
-    use_episode_art: false
-    use_custom_entity_ids: true
-    show_all_controls: false
-    scan_interval: 5
-=======
 # VIDEO PLAYER PACKAGE
 #----------------------------------------------------------------
 
@@ -138,4 +67,3 @@ media_player:
     use_custom_entity_ids: true
     show_all_controls: false
     scan_interval: 5
->>>>>>> 12e1ca28f1c630ae97021995783559cf5f4334f4
