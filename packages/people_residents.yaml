@@ -23,8 +23,8 @@ group:
     view: no
     icon: mdi:account-multiple
     entities:
-    - sensor.tracker_william
-    - sensor.tracker_emily
+    - device_tracker.william_phonewilliam
+    - device_tracker.emily_phoneemily
 
 sensor:
 #----------------------------------------------------------------
