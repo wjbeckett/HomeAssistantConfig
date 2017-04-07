@@ -7,7 +7,7 @@ homeassistant:
 
     sensor.tracker_william:
       icon: mdi:cellphone-android
-      entity_picture: 
+      entity_picture:
       friendly_name: William
 
     sensor.tracker_emily:
@@ -62,50 +62,28 @@ automation:
   #----------------------------------------------------------------
 
   # Send a notification when key residents arrive
-  - alias: NOTIFY (HOME) Resident
-    initial_state: True # start disabled to avoid false positives on HA restart  
+  - alias: NOTIFY (Location) Resident
+    initial_state: True # start disabled to avoid false positives on HA restart
     hide_entity: True
     trigger:
       - platform: state
         entity_id:
-          - sensor.tracker_william
-          - sensor.tracker_emily
-        to: 'Home'
+          - device_tracker.william_phonewilliam
+          - device_tracker.emily_phoneemily
     condition:
       - condition: state
         entity_id: input_boolean.options_notifications_push
         state: 'on'
+      - condition: template
+        value_template: "{{ trigger.from_state.state != trigger.to_state.state  }}"
     action:
       - service: notify.html5
         data_template:
-          message: "{{ trigger.entity_id.split('.')[1].lower().replace('tracker_', '').title() }} is home"
+          message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
           title: ""
           target: 'William'
 
-
-  # Send a notification when key residents leave
-  - alias: NOTIFY (AWAY) Resident
-    initial_state: True # start disabled to avoid false positives on HA restart  
-    hide_entity: True
-    trigger:
-      - platform: state
-        entity_id:
-          - sensor.tracker_william
-          - sensor.tracker_emily
-        from: 'Home'
-    condition:
-      - condition: state
-        entity_id: input_boolean.options_notifications_push
-        state: 'on'
-    action:
-      - service: notify.html5
-        data_template:
-          message: "{{ trigger.entity_id.split('.')[1].lower().replace('tracker_', '').title() }} is Away"
-          title: ""
-          target: 'William'
-
-
-script: 
+script:
   refresh_devices:
     sequence:
       - service: mqtt.publish
