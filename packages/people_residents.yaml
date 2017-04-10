@@ -80,9 +80,47 @@ automation:
       - service: notify.html5
         data_template:
           message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
+          data:
+            actions:
+              - action: "notify_button1"
+                title: "Lights ON"
+              - action: "notify_button2"
+                title: "Lights OFF"
           title: ""
           target: 'William'
 
+  - alias: HTML5 push notification action button1 clicked
+    initial_state: True
+    hide_entity: True
+    trigger:
+      platform: event
+      event_type: html5_notification.clicked
+      event_data:
+        action: notify_button1
+    condition:
+      - condition: state
+        entity_id: input_boolean.options_notifications_push
+        state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id: group.all_lights
+        
+  - alias: HTML5 push notification action button2 clicked
+    initial_state: True
+    hide_entity: True
+    trigger:
+      platform: event
+      event_type: html5_notification.clicked
+      event_data:
+        action: notify_button2
+    condition:
+      - condition: state
+        entity_id: input_boolean.options_notifications_push
+        state: 'on'
+    action:
+      - service: light.turn_off
+        entity_id: group.all_lights
+        
 script:
   refresh_devices:
     sequence:
