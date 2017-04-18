@@ -26,6 +26,7 @@ group:
     - sensor.kitchen_light_level
     - sensor.kitchen_motion
     - sensor.kitchen_pressure
+    - binary_sensor.kitchen_motion_active
     
   cameras_kitchen_switches:
     - switch.kitchen_exposure_lock
@@ -72,8 +73,8 @@ automation:
     hide_entity: True
     trigger:
       - platform: state
-        entity_id: binary_sensor.camera_kitchen
-        state: 'on'
+        entity_id: binary_sensor.kitchen_motion_active
+        to: 'on'
     condition:
       - condition: state
         entity_id: input_boolean.options_notifications_push
