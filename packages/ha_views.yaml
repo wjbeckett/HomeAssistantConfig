@@ -44,6 +44,7 @@ group:
       - sensor.kitchen_light_level
       - sensor.kitchen_motion
       - sensor.kitchen_pressure
+      - binary_sensor.kitchen_motion_active
       - group.cameras_group1
       - group.cameras_kitchen_switches
 
