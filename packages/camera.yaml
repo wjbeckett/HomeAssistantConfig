@@ -73,7 +73,7 @@ automation:
     hide_entity: True
     trigger:
       - platform: state
-        entity_id: binary_sensor.kitchen_motion_active
+        entity_id: switch.kitchen_video_recording
         to: 'on'
     condition:
       - condition: state
