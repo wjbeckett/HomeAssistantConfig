@@ -93,5 +93,5 @@ automation:
           message: 'Motion Detected'
           data:
             photo:
-              url: http://172.30.1.102/photo.jpg
+              url: http://172.30.1.102:8080/photo.jpg
               caption: Kitchen Camera
