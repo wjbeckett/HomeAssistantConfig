@@ -82,6 +82,9 @@ automation:
       - condition: state
         entity_id: device_tracker.emily_phoneemily
         state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.william_phonewilliam
+        state: 'not_home'
     action:
       - service: notify.telegram
         data:
