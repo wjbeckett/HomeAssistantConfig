@@ -80,11 +80,11 @@ automation:
         entity_id: input_boolean.options_notifications_push
         state: 'on'
       - condition: state
-        entity_id: device_tracker.emily_phoneemily
-        state: 'not_home'
+        entity_id: sensor.tracker_emily
+        state: 'Away'
       - condition: state
-        entity_id: device_tracker.william_phonewilliam
-        state: 'not_home'
+        entity_id: sensor.tracker_william
+        state: 'Away'
     action:
       - service: notify.telegram
         data:
