@@ -80,7 +80,9 @@ automation:
         entity_id: input_boolean.options_notifications_push
         state: 'on'
       - condition: state
-        entity_id: group.all_devices
+        entity_id:
+          - device_tracker.emily_phoneemily
+          - device_tracker.william_phonewilliam
         state: 'not_home'
     action:
       - service: notify.telegram
