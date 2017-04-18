@@ -31,14 +31,13 @@ group:
       - group.lights_lounge
       - group.lights_ted
 
-#  # Note: Multiple camera groups to force web page to display in multiple columns
-#  cameras_view:
-#    name: Cameras
-#    view: yes
-#    icon: mdi:camcorder # Uncomment line to show icon instead of name
-#    entities:
-#      - group.cameras_group1
-#      - group.cameras_group2
+  # Note: Multiple camera groups to force web page to display in multiple columns
+  cameras_view:
+    name: Cameras
+    view: yes
+    icon: mdi:camcorder # Uncomment line to show icon instead of name
+    entities:
+      - group.cameras_group1
 
   people_view:
     name: People
