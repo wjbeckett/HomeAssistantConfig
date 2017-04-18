@@ -17,6 +17,25 @@ group:
 
   cameras_group1:
     - camera.kitchen
+    
+  cameras_kitchen_sensors:
+    - sensor.kitchen_autio_connections
+    - sensor.kitchen_battery_level
+    - sensor.kitchen_battery_temperature
+    - sensor.kitchen_battery_voltage
+    - sensor.kitchen_light_level
+    - sensor.kitchen_motion
+    - sensor.kitchen_pressure
+    
+  cameras_kitchen_switches:
+    - switch.kitchen_exposure_lock
+    - switch.kitchen_focus
+    - switch.kitchen_frontfacing_camera
+    - switch.kitchen_gps_active
+    - switch.kitchen_overlay
+    - switch.kitchen_torch
+    - switch.kitchen_video_recording
+    - switch.kitchen_white_balance_lock
 
 android_ip_webcam:
 #----------------------------------------------------------------
@@ -40,6 +59,7 @@ android_ip_webcam:
       - torch
       - whitebalance_lock
       - video_recording
+    motion_sensor: true
       
 automation:
 #----------------------------------------------------------------

@@ -37,7 +37,15 @@ group:
     view: yes
     icon: mdi:camcorder # Uncomment line to show icon instead of name
     entities:
+      - sensor.kitchen_autio_connections
+      - sensor.kitchen_battery_level
+      - sensor.kitchen_battery_temperature
+      - sensor.kitchen_battery_voltage
+      - sensor.kitchen_light_level
+      - sensor.kitchen_motion
+      - sensor.kitchen_pressure
       - group.cameras_group1
+      - group.cameras_kitchen_switches
 
   people_view:
     name: People
