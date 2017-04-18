@@ -80,7 +80,9 @@ automation:
         entity_id: input_boolean.options_notifications_push
         state: 'on'
       - condition: state
-        entity_id: sensor.tracker_emily, sensor.tracker_william
+        entity_id:
+          - sensor.tracker_emily
+          - sensor.tracker_william
         state: 'Away'
     action:
       - service: notify.telegram
