@@ -19,7 +19,54 @@ group:
     - camera.kitchen
 
 android_ip_webcam:
+#----------------------------------------------------------------
   - name: Kitchen
     host: !secret kitchen_camera_url
     sensors: 
+      - audio_connections
       - battery_level
+      - battery_temp
+      - battery_voltage
+      - light
+      - motion
+      - pressure
+    switches:
+      - exposure_lock
+      - ffc
+      - focus
+      - gps_active
+      - night_vision
+      - overlay
+      - torch
+      - whitebalance_lock
+      - video_recording
+      
+automation:
+#----------------------------------------------------------------
+
+  # NOTIFICATIONS
+  #----------------------------------------------------------------
+  # Send a notification when motion is detected and no one is home
+  - alias: NOTIFY Motion 
+    initial_state: True # start disabled to avoid false positives on HA restart
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.camera_kitchen
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.options_notifications_push
+        state: 'on'
+      - condition: state
+        entity_id: group.all_devices
+        state: 'not_home'
+    action:
+      - service: notify.telegram
+        data:
+          title: 'Home Assistant'
+          message: 'Motion Detected'
+          data:
+            photo:
+              url: htt[://172.30.1.102/photo.jpg
+              caption: Kitchen Camera
