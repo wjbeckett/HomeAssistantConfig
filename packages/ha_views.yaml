@@ -76,6 +76,7 @@ group:
       - media_player.plex_2a3b1bab_1c0b_4b0e_b009_2213bf9257f7
       - media_player.plex_e7a3x16bgqp72hfi754u9dx6r
       - media_player.plex_378e7227_b433_433e_84b9_98dadb7b990f
+      - media_player.plex_94335899_a01c_49a6_821f_0584e29a2ddf
 
   scenes_view:
     name: Scenes

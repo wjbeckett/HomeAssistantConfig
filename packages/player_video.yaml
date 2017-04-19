@@ -38,6 +38,10 @@ homeassistant:
     media_player.plex_e7a3x16bgqp72hfi754u9dx6r:
       icon: mdi:cast
       friendly_name: Ron & Deb
+      
+    media_player.plex_94335899_a01c_49a6_821f_0584e29a2ddf:
+      icon: mdi:tablet-ipad
+      friendly_name: Ron's iPad
     
     # JAZ
     #--------------------------------------------------------------
