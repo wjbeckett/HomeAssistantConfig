@@ -14,9 +14,15 @@ group:
 
   cameras_all:
     - camera.kitchen
+    - camera.william
+    - camera.emily
 
   cameras_group1:
     - camera.kitchen
+    
+  cameras_group2:
+    - camera.william
+    - camera.emily
     
   cameras_kitchen_sensors:
     - sensor.kitchen_autio_connections
@@ -38,6 +44,18 @@ group:
     - switch.kitchen_video_recording
     - switch.kitchen_white_balance_lock
 
+camera:
+#----------------------------------------------------------------
+  - name: William
+    platform: generic
+    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.william_phonewilliam.attributes.latitude }},{{ states.device_tracker.william_phonewilliam.attributes.longitude }}&zoom=16&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:W%7C{{ states.device_tracker.william_phonewilliam.attributes.latitude }},{{ states.device_tracker.william_phonewilliam.attributes.longitude }}
+    limit_refetch_to_url_change: true
+
+  - name: Emily
+    platform: generic
+    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.emily_phoneemily.attributes.latitude }},{{ states.device_tracker.emily_phoneemily.attributes.longitude }}&zoom=16&size=500x500&maptype=roadmap&markers=color:red%7Clabel:E%7C{{ states.device_tracker.emily_phoneemily.attributes.latitude }},{{ states.device_tracker.emily_phoneemily.attributes.longitude }}
+    limit_refetch_to_url_change: true
+    
 android_ip_webcam:
 #----------------------------------------------------------------
   - name: Kitchen

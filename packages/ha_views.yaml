@@ -55,7 +55,7 @@ group:
     entities:
       - group.residents_all
       - script.refresh_devices
-      - group.cameras_all
+      - group.cameras_group2
 
 #  audio_view:
 #    name: Audio
