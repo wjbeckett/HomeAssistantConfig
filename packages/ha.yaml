@@ -16,8 +16,8 @@ automation:
   - alias: NOTIFY (START) Home Assistant
     hide_entity: True
     trigger:
-      platform: event
-      event_type: homeassistant_start
+      platform: homeassistant
+      event: start
     condition:
       - condition: state
         entity_id: input_boolean.options_notifications_push

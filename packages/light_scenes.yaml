@@ -7,34 +7,29 @@ scene:
   #----------------------------------------------------------------
 
   - name: Living Room Off
-    icon: mdi:lightbulb
     entities:
       light.lounge:
         state: off
 
   - name: Living Room See
-    icon: mdi:lightbulb-on-outline
     entities:
       light.lounge:
         state: on
         brightness: 255
 
   - name: Living Room Read
-    icon: mdi:lightbulb-on-outline
     entities:
       light.lounge:
         state: on
         brightness: 125
 
   - name: Living Room Dim
-    icon: mdi:lightbulb-on
     entities:
       light.lounge:
         state: on
         brightness: 5
 
   - name: Living Room Movies
-    icon: mdi:lightbulb-on
     entities:
       light.lounge:
         state: on
