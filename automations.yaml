@@ -174,7 +174,8 @@
     - service: notify.html5
       data_template:
         message: >
-          {{states.sensor.plexspy.attributes}}
+          {%- if not states.media_player.state=="idle" -%}
+            {{states.media_player.attributes}}
         title: "Attributes"
         target: 'William'
     - service: logbook.log
