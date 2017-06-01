@@ -31,22 +31,22 @@ group:
       - group.lights_lounge
       - group.lights_ted
 
-  # Note: Multiple camera groups to force web page to display in multiple columns
-  cameras_view:
-    name: Cameras
-    view: yes
-    icon: mdi:camcorder # Uncomment line to show icon instead of name
-    entities:
-      - sensor.kitchen_autio_connections
-      - sensor.kitchen_battery_level
-      - sensor.kitchen_battery_temperature
-      - sensor.kitchen_battery_voltage
-      - sensor.kitchen_light_level
-      - sensor.kitchen_motion
-      - sensor.kitchen_pressure
-      - binary_sensor.kitchen_motion_active
-      - group.cameras_group1
-      - group.cameras_kitchen_switches
+#  # Note: Multiple camera groups to force web page to display in multiple columns
+#  cameras_view:
+#    name: Cameras
+#    view: yes
+#    icon: mdi:camcorder # Uncomment line to show icon instead of name
+#    entities:
+#      - sensor.kitchen_autio_connections
+#      - sensor.kitchen_battery_level
+#      - sensor.kitchen_battery_temperature
+#      - sensor.kitchen_battery_voltage
+#      - sensor.kitchen_light_level
+#      - sensor.kitchen_motion
+#      - sensor.kitchen_pressure
+#      - binary_sensor.kitchen_motion_active
+#      - group.cameras_group1
+#      - group.cameras_kitchen_switches
 
   people_view:
     name: People
@@ -77,6 +77,7 @@ group:
       - media_player.plex_e7a3x16bgqp72hfi754u9dx6r
       - media_player.plex_378e7227_b433_433e_84b9_98dadb7b990f
       - media_player.plex_94335899_a01c_49a6_821f_0584e29a2ddf
+      - media_player.plex_txr4o82xdrlf
 
   scenes_view:
     name: Scenes

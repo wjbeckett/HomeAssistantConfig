@@ -48,6 +48,12 @@ homeassistant:
     media_player.plex_378e7227_b433_433e_84b9_98dadb7b990f:
       icon: mdi:plex
       friendly_name: Jaz
+    
+    # The Jonses
+    #----------------
+    media_player.plex_txr4o82xdrlf:
+      icon: mdi:xbox
+      friendly_name: The Jonses
 
 sensor:
 #----------------------------------------------------------------

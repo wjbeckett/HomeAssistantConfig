@@ -2,47 +2,47 @@
 # IP connected cameras
 #----------------------------------------------------------------
 
-homeassistant:
-  customize:
-  #----------------------------------------------------------------
-    sensor.motion_indoor_camera_kitchen:
-      icon: mdi:camcorder
-      friendly_name: Kitchen
+#homeassistant:
+#  customize:
+#  #----------------------------------------------------------------
+#    sensor.motion_indoor_camera_kitchen:
+#      icon: mdi:camcorder
+#      friendly_name: Kitchen
 
 group:
 #----------------------------------------------------------------
 
   cameras_all:
-    - camera.kitchen
+#    - camera.kitchen
     - camera.william
     - camera.emily
 
-  cameras_group1:
-    - camera.kitchen
+#  cameras_group1:
+#    - camera.kitchen
     
   cameras_group2:
     - camera.william
     - camera.emily
     
-  cameras_kitchen_sensors:
-    - sensor.kitchen_autio_connections
-    - sensor.kitchen_battery_level
-    - sensor.kitchen_battery_temperature
-    - sensor.kitchen_battery_voltage
-    - sensor.kitchen_light_level
-    - sensor.kitchen_motion
-    - sensor.kitchen_pressure
-    - binary_sensor.kitchen_motion_active
+#  cameras_kitchen_sensors:
+#    - sensor.kitchen_autio_connections
+#    - sensor.kitchen_battery_level
+#    - sensor.kitchen_battery_temperature
+#    - sensor.kitchen_battery_voltage
+#    - sensor.kitchen_light_level
+#    - sensor.kitchen_motion
+#    - sensor.kitchen_pressure
+#    - binary_sensor.kitchen_motion_active
     
-  cameras_kitchen_switches:
-    - switch.kitchen_exposure_lock
-    - switch.kitchen_focus
-    - switch.kitchen_frontfacing_camera
-    - switch.kitchen_gps_active
-    - switch.kitchen_overlay
-    - switch.kitchen_torch
-    - switch.kitchen_video_recording
-    - switch.kitchen_white_balance_lock
+#  cameras_kitchen_switches:
+#    - switch.kitchen_exposure_lock
+#    - switch.kitchen_focus
+#    - switch.kitchen_frontfacing_camera
+#    - switch.kitchen_gps_active
+#    - switch.kitchen_overlay
+#    - switch.kitchen_torch
+#    - switch.kitchen_video_recording
+#    - switch.kitchen_white_balance_lock
 
 camera:
 #----------------------------------------------------------------
@@ -56,60 +56,61 @@ camera:
     still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.emily_phoneemily.attributes.latitude }},{{ states.device_tracker.emily_phoneemily.attributes.longitude }}&zoom=16&size=500x500&maptype=roadmap&markers=color:red%7Clabel:E%7C{{ states.device_tracker.emily_phoneemily.attributes.latitude }},{{ states.device_tracker.emily_phoneemily.attributes.longitude }}
     limit_refetch_to_url_change: true
     
-android_ip_webcam:
+#android_ip_webcam:
 #----------------------------------------------------------------
-  - name: Kitchen
-    host: !secret kitchen_camera_url
-    sensors: 
-      - audio_connections
-      - battery_level
-      - battery_temp
-      - battery_voltage
-      - light
-      - motion
-      - pressure
-    switches:
-      - exposure_lock
-      - ffc
-      - focus
-      - gps_active
-      - night_vision
-      - overlay
-      - torch
-      - whitebalance_lock
-      - video_recording
-    motion_sensor: true
+#  - name: Kitchen
+#    host: !secret kitchen_camera_url
+#    sensors: 
+#      - audio_connections
+#      - battery_level
+#      - battery_temp
+#      - battery_voltage
+#      - light
+#      - motion
+#      - pressure
+#    switches:
+#      - exposure_lock
+#      - ffc
+#      - focus
+#      - gps_active
+#      - night_vision
+#      - overlay
+#      - torch
+#      - whitebalance_lock
+#      - video_recording
+#    motion_sensor: true
       
-automation:
+#automation:
 #----------------------------------------------------------------
 
   # NOTIFICATIONS
   #----------------------------------------------------------------
   # Send a notification when motion is detected and no one is home
-  - alias: NOTIFY Motion 
-    initial_state: True # start disabled to avoid false positives on HA restart
-    hide_entity: True
-    trigger:
-      - platform: state
-        entity_id: switch.kitchen_video_recording
-        from: 'off'
-        to: 'on'
-    condition:
-      - condition: state
-        entity_id: input_boolean.options_notifications_push
-        state: 'on'
-      - condition: state
-        entity_id: sensor.tracker_emily
-        state: 'Away'
-      - condition: state
-        entity_id: sensor.tracker_william
-        state: 'Away'
-    action:
-      - service: notify.telegram
-        data:
-          title: 'Home Assistant'
-          message: 'Motion Detected'
-          data:
-            photo:
-              url: http://172.30.1.102:8080/photo.jpg
-              caption: Kitchen Camera
+#  - alias: NOTIFY Motion 
+#    initial_state: True # start disabled to avoid false positives on HA restart
+#    hide_entity: True
+#    trigger:
+#      - platform: state
+#        entity_id: switch.kitchen_video_recording
+#        from: 'off'
+#        to: 'on'
+#    condition:
+#      - condition: state
+#        entity_id: input_boolean.options_notifications_push
+#        state: 'on'
+#      - condition: state
+#        entity_id: sensor.tracker_emily
+#        state: 'Away'
+#      - condition: state
+#        entity_id: sensor.tracker_william
+#        state: 'Away'
+#    action:
+#      - service: notify.telegram
+#        data:
+#          title: 'Home Assistant'
+#          message: 'Motion Detected'
+#          data:
+#            photo:
+#              url: http://172.30.1.102:8080/photo.jpg
+#              caption: Kitchen Camera
+#
