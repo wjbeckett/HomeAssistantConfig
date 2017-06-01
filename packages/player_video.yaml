@@ -62,6 +62,7 @@ sensor:
   # 1) Show player name if username is blank
   # 2) Show TV show, season, and episode number
   - platform: plex
+    name: PlexSpy
     host: !secret plex_host
     port: !secret plex_port
     username: !secret plex_username
