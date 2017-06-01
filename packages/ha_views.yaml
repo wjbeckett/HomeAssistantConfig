@@ -11,7 +11,7 @@ group:
     - sensor.dark_sky_summary
     - device_tracker.william_phonewilliam
     - device_tracker.emily_phoneemily
-    - sensor.plex
+    - sensor.plexspy
     - sensor.lights_on
     - group.quick_clicks
 
