@@ -1,7 +1,9 @@
 #################################################################
-## Presence
+## HASS related
 #################################################################
-- alias: NOTIFY (START) Home Assistant
+- id: hass_start_notification
+  alias: NOTIFY (START) Home Assistant
+  initial_state: 'on'
   hide_entity: True
   condition:
     - condition: state
@@ -16,16 +18,17 @@
         title: ''
         message: 'Home Assistant Started'
 
-# Notify when Home Assistant has a new update pending
-- alias: NOTIFY (UPDATE) Home Assistant
+- id: update_available_notification
+  alias: NOTIFY (UPDATE) Home Assistant
+  initial_state: 'on'
   hide_entity: True
-  trigger:
-    - platform: state
-      entity_id: updater.updater
   condition:
     - condition: state
       entity_id: input_boolean.options_notifications_push
       state: 'on'
+  trigger:
+    - platform: state
+      entity_id: updater.updater
   action:
     - service: notify.html5
       data_template:
@@ -36,3 +39,7 @@
       data_template:
         title: ''
         message: 'Home Assistant {{ states.updater.updater.state }} is now available.'
+
+#################################################################
+## Presence
+#################################################################
