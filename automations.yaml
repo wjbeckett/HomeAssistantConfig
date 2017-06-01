@@ -179,7 +179,7 @@
             {% set space = joiner(' ') %}
             {%- for attr in states.sensor.plexspy.attributes -%}
              {%- if not attr=="friendly_name" and not attr=="unit_of_measurement" -%}
-              {{states.sensor.plexspy.attributes["friendly_name"]}} is watching {{states.sensor.plexspy.attributes[attr]}}.
+              {{space()}}{{attr}} is watching {{states.sensor.plexspy.attributes[attr]}}.
              {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
