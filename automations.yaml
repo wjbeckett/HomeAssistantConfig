@@ -41,5 +41,207 @@
         message: 'Home Assistant {{ states.updater.updater.state }} is now available.'
 
 #################################################################
+## Lights
+#################################################################
+- id: lights_on_5pm
+  alias: Turn on the lounge room lamp at 5pm
+  initial_state: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.options_lights_auto_on
+      state: 'on'
+  trigger:
+    - platform: time
+      after: '17:00:00'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: group.lights_all
+        brightness: 255
+
+- id: lounge_light_off_11pm
+  alias: 'Turn off lounge lights @ 11PM'
+  initial_state: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.options_lights_auto_off
+      state: 'on'
+  trigger:
+    - platform: time
+      after: '23:00:00'
+  action:
+    - service: light.turn_off
+      entity_id: light.lounge
+ 
+- id: lights_off_day
+  alias: 'Turn off lounge lights during the day'
+  initial_state: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.options_lights_auto_off
+      state: 'on'
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: '+00:00:00'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.lights_lounge
+
+- id: lounge_scenes
+  alias: Turn On Living Room Scenes
+  initial_state: 'on'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: input_select.living_room_scenes
+  action:
+    - service: homeassistant.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state("input_select.living_room_scenes", "Off") %}
+            scene.living_room_off
+          {%-elif is_state("input_select.living_room_scenes", "See") %}
+            scene.living_room_see
+          {%-elif is_state("input_select.living_room_scenes", "Read") %}
+            scene.living_room_read
+          {%-elif is_state("input_select.living_room_scenes", "Dim") %}
+            scene.living_room_dim
+          {%-elif is_state("input_select.living_room_scenes", "Movies") %}
+            scene.living_room_movies
+          {% else %}
+            none
+          {% endif %}
+        
+#################################################################
+## Devices
+#################################################################
+
+- id: notify_sensors
+  alias: NOTIFY (STATE) Binary Sensors
+  initial_state: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.settings_notifications_push
+      state: 'on'
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.sonarr
+        - binary_sensor.router
+        - binary_sensor.plex
+        - binary_sensor.radarr
+        - binary_sensor.jackett
+        - binary_sensor.proxy
+        - binary_sensor.deluge
+        - binary_sensor.server
+        - binary_sensor.light_bridge
+        - binary_sensor.nexus_player
+        - binary_sensor.plexpy
+        - binary_sensor.requests
+  action:
+    - service: notify.html5
+      data_template:
+        message: "{{ trigger.entity_id.split('.')[1].title().replace('_', ' ') }} is {{ trigger.to_state.state }}"
+        title: ""
+        target: 'William'
+
+#################################################################
 ## Presence
 #################################################################
+
+- id: notify_guest
+  alias: NOTIFY (HOME) Guest
+  initial_state: 'on'
+  hide_entity: True
+  condition:
+    - condition: state
+      entity_id: input_boolean.options_notifications_push
+      state: 'on'
+  trigger:
+    - platform: state
+      entity_id:
+        - device_tracker.PhoneEmma
+        - device_tracker.PhoneRon
+        - device_tracker.PhoneSes
+        - device_tracker.PhoneDeb
+      from: 'not_home'
+      to: 'home'
+  action:
+    - service: notify.html5
+      data_template:
+        message: "{{ trigger.entity_id.split('.')[1].lower().replace('phone', '').title() }} has arrived"
+        title: ""
+        target: 'William'
+        
+- id: notify_resident
+  alias: NOTIFY (Location) Resident
+  initial_state: 'on'
+  hide_entity: True
+  condition:
+    - condition: state
+      entity_id: input_boolean.options_notifications_push
+      state: 'on'
+    - condition: template
+      value_template: "{{ trigger.from_state.state != trigger.to_state.state  }}"
+  trigger:
+    - platform: state
+      entity_id:
+        - device_tracker.william_phonewilliam
+        - device_tracker.emily_phoneemily
+  action:
+    - service: notify.html5
+      data_template:
+        message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
+        data:
+          actions:
+            - action: "notify_button1"
+              title: "Lights ON"
+            - action: "notify_button2"
+              title: "Lights OFF"
+        title: ""
+        target: 'William'
+    - service: notify.telegram
+      data_template:
+        message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
+    - service: notify.telegram
+      data_template:
+        message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
+        data:
+          location:
+            latitude: "{{ trigger.to_state.attributes.latitude }}"
+            longitude: "{{ trigger.to_state.attributes.longitude }}"
+
+- id: notification_button1
+  alias: HTML5 push notification action button1 clicked
+  initial_state: 'on'
+  hide_entity: True
+  condition:
+    - condition: state
+      entity_id: input_boolean.options_notifications_push
+      state: 'on'
+  trigger:
+    - platform: event
+      event_type: html5_notification.clicked
+      event_data:
+        action: notify_button1
+  action:
+    - service: light.turn_on
+      entity_id: group.all_lights
+        
+- id: notification_button2
+  alias: HTML5 push notification action button2 clicked
+  initial_state: 'on'
+  hide_entity: True
+  condition:
+    - condition: state
+      entity_id: input_boolean.options_notifications_push
+      state: 'on'
+  trigger:
+    - platform: event
+      event_type: html5_notification.clicked
+      event_data:
+        action: notify_button2
+  action:
+    - service: light.turn_off
+      entity_id: group.all_lights
