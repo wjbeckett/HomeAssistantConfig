@@ -164,8 +164,10 @@
           {%- if states.sensor.plexspy.attributes -%}
             {% set space = joiner(' ') %}
             {%- for attr in states.sensor.plexspy.attributes -%}
-             {%- if not attr=="friendly_name" and not attr=="unit_of_measurement" -%}
+             {%- if not attr=="friendly_name" and not attr=="unit_of_measurement" and attr=="media_series_title" -%}
               {{space()}}{{attr}} is watching {{states.sensor.plexspy.attributes[attr]}}.
+             {%- else -%}
+              {{space()}}{{attr}} is watching {{states.sensor.plexspy.attributes[media_series_title]}} - {{states.sensor.plexspy.attributes[media_season,media_episode]}} {{states.sensor.plexspy.attributes[attr]}}.
              {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
