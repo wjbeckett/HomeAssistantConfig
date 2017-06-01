@@ -171,14 +171,6 @@
           {%- endif -%}
         title: "Plex {{ trigger.to_state.state }} people streaming. "
         target: 'William'
-    - service: notify.html5
-      data_template:
-        message: >
-          {%- if not states.media_player.state=="idle" -%}
-            {{states.media_player.attributes}}
-          {%- endif -%}
-        title: "Attributes"
-        target: 'William'
     - service: logbook.log
       data_template:
         name: "Plex {{ trigger.to_state.state }} people streaming. "
