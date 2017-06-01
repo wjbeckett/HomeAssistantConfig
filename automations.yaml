@@ -164,12 +164,18 @@
           {%- if states.sensor.plexspy.attributes -%}
             {% set space = joiner(' ') %}
             {%- for attr in states.sensor.plexspy.attributes -%}
-             {%- if not attr=="friendly_name" and not attr=="unit_of_measurement" and attr=="media_series_title" -%}
+             {%- if not attr=="friendly_name" and not attr=="unit_of_measurement" -%}
               {{space()}}{{attr}} is watching {{states.sensor.plexspy.attributes[attr]}}.
              {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
         title: "Plex {{ trigger.to_state.state }} people streaming. "
+        target: 'William'
+    - service: notify.html5
+      data_template:
+        message: >
+          {{states.sensor.plexspy.attributes}}
+        title: "Attributes"
         target: 'William'
     - service: logbook.log
       data_template:
