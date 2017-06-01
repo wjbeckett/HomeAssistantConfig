@@ -13,7 +13,7 @@ homeassistant:
   # Bundles configurations together
   # https://home-assistant.io/topics/packages/
   packages: !include_dir_named packages/
-#  automation: !include automations.yaml
+  automation: !include automations.yaml
  
 http:
   api_password: !secret http_password
