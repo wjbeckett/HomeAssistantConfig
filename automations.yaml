@@ -239,9 +239,9 @@
               title: "Lights OFF"
         title: ""
         target: 'William'
-    - service: notify.telegram
-      data_template:
-        message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
+#    - service: notify.telegram
+#      data_template:
+#        message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
     - service: notify.telegram
       data_template:
         message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
