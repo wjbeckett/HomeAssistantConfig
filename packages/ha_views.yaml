@@ -78,6 +78,7 @@ group:
       - media_player.plex_378e7227_b433_433e_84b9_98dadb7b990f
       - media_player.plex_94335899_a01c_49a6_821f_0584e29a2ddf
       - media_player.plex_txr4o82xdrlf
+      - media_player.plex_89fc28a195d78bf8_com_plexapp_android
 
   scenes_view:
     name: Scenes
