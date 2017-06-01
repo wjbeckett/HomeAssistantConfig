@@ -85,58 +85,6 @@ homeassistant:
 
 
 
-automation:
-#----------------------------------------------------------------
-
-  # Notify when sensor batteries are low
-  #- alias: NOTIFY (BATTERY) Sensors
-  #  trigger:
-  #    - platform: numeric_state
-  #      entity_id: binary_sensor.front_door_sensor_sensor_42_0
-  #      value_template: '{{ state.attributes.battery_level }}'
-  #      below: 5
-  #    - platform: numeric_state
-  #      entity_id: binary_sensor.mudroom_door_sensor_sensor_40_0
-  #      value_template: '{{ state.attributes.battery_level }}'
-  #      below: 5
-  #    - platform: numeric_state
-  #      entity_id: binary_sensor.garage_door_tilt_sensor_sensor_27_0
-  #      value_template: '{{ state.attributes.battery_level }}'
-  #      below: 5
-  #  action:
-  #    - service: notify.html5
-  #      data_template:
-  #        message: "{{ trigger.entity_id.split('.')[1].split('_sensor')[0].lower().replace('_', ' ').title() }} batteries are at {{ trigger.to_state.state }}"
-  #        title: ""
-  #        target: 'William'
-
-  - alias: NOTIFY (STATE) Binary Sensors
-    trigger:
-      - platform: state
-        entity_id:
-          - binary_sensor.sonarr
-          - binary_sensor.router
-          - binary_sensor.plex
-          - binary_sensor.radarr
-          - binary_sensor.jackett
-          - binary_sensor.proxy
-          - binary_sensor.deluge
-          - binary_sensor.server
-          - binary_sensor.light_bridge
-          - binary_sensor.nexus_player
-          - binary_sensor.plexpy
-          - binary_sensor.requests
-    condition:
-      - condition: state
-        entity_id: input_boolean.settings_notifications_push
-        state: 'on'
-    action:
-      - service: notify.html5
-        data_template:
-          message: "{{ trigger.entity_id.split('.')[1].title().replace('_', ' ') }} is {{ trigger.to_state.state }}"
-          title: ""
-          target: 'William'
-
 group:
 #----------------------------------------------------------------
 
