@@ -176,6 +176,7 @@
         message: >
           {%- if not states.media_player.state=="idle" -%}
             {{states.media_player.attributes}}
+          {%- endif -%}
         title: "Attributes"
         target: 'William'
     - service: logbook.log
