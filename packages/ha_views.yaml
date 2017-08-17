@@ -31,23 +31,6 @@ group:
       - group.lights_lounge
       - group.lights_ted
 
-#  # Note: Multiple camera groups to force web page to display in multiple columns
-#  cameras_view:
-#    name: Cameras
-#    view: yes
-#    icon: mdi:camcorder # Uncomment line to show icon instead of name
-#    entities:
-#      - sensor.kitchen_autio_connections
-#      - sensor.kitchen_battery_level
-#      - sensor.kitchen_battery_temperature
-#      - sensor.kitchen_battery_voltage
-#      - sensor.kitchen_light_level
-#      - sensor.kitchen_motion
-#      - sensor.kitchen_pressure
-#      - binary_sensor.kitchen_motion_active
-#      - group.cameras_group1
-#      - group.cameras_kitchen_switches
-
   people_view:
     name: People
     view: yes
@@ -56,14 +39,6 @@ group:
       - group.residents_all
       - script.refresh_devices
       - group.cameras_group2
-
-#  audio_view:
-#    name: Audio
-#    view: yes
-#    icon: mdi:headphones
-#    entities:
-#      - group.speakers_group1
-#      - group.speakers_group2
 
   video_view:
     name: Video

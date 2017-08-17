@@ -13,9 +13,9 @@ homeassistant:
   # Bundles configurations together
   # https://home-assistant.io/topics/packages/
   packages: !include_dir_named packages/
-  
+
 automation: !include automations.yaml
- 
+
 http:
   api_password: !secret http_password
   ip_ban_enabled: True
@@ -33,14 +33,6 @@ mqtt:
   username: !secret mqtt_username
   password: !secret mqtt_password
 
-telegram_bot:
-  platform: webhooks
-  api_key: !secret telegram_api_key
-  allowed_chat_ids: !secret telegram_chat_id
-
-influxdb:
-  host: !secret influx_host
-  
 # Sends notifications to a wide variety of platforms
 # https://home-assistant.io/components/notify/
 notify: !include_dir_merge_list notify/
