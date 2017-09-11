@@ -45,16 +45,17 @@
 #################################################################
 ## Lights
 #################################################################
-- id: lights_on_5pm
-  alias: Turn on the lounge room lamp at 5pm
+- id: lights_on_sunset
+  alias: Turn on the lounge room lamp at sunset
   initial_state: 'on'
   condition:
     - condition: state
       entity_id: input_boolean.options_lights_auto_on
       state: 'on'
   trigger:
-    - platform: time
-      after: '17:00:00'
+    - platform: sun
+      event: sunset
+      offset: "-01:00:00"
   action:
     - service: light.turn_on
       data:
@@ -153,7 +154,7 @@
 #################################################################
 - id: plexspy_notification
   alias: "Plex Spy notification"
-  initial_state: 'on'
+  initial_state: 'off'
   trigger:
     platform: state
     entity_id: sensor.plexspy
@@ -239,16 +240,7 @@
               title: "Lights OFF"
         title: ""
         target: 'William'
-#    - service: notify.telegram
-#      data_template:
-#        message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
-    - service: notify.telegram
-      data_template:
-        message: "{{ trigger.from_state.attributes.friendly_name }} is {% if trigger.to_state.state == 'home' %}at home{% elif trigger.to_state.state == 'not_home' %}away{% else %}at {{ trigger.to_state.state }}{% endif %}."
-        data:
-          location:
-            latitude: "{{ trigger.to_state.attributes.latitude }}"
-            longitude: "{{ trigger.to_state.attributes.longitude }}"
+
 
 - id: notification_button1
   alias: HTML5 push notification action button1 clicked
